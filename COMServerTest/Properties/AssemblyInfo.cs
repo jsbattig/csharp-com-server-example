@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.EnterpriseServices;
 
@@ -36,6 +35,6 @@ using System.EnterpriseServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: ApplicationName("Person")]
+[assembly: ApplicationName("COMServerTest")]
 [assembly: ApplicationActivation(ActivationOption.Server)]
-//[assembly: AssemblyKeyFile(@"C:\Person\Person\yournameanddate.snk")]
+[assembly: ApplicationAccessControl(false, Authentication = AuthenticationOption.None)]

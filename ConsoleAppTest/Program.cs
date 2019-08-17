@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using TestComObject;
 
 namespace ConsoleAppTest
@@ -19,6 +18,7 @@ namespace ConsoleAppTest
       for (var i = 0; i < person.Length; i++)
         person[i] = (IPerson)Activator.CreateInstance(comType);
       Console.WriteLine(person.Length.ToString() + " object created in " + (Environment.TickCount - initialTicks).ToString() + "ms");
+
       initialTicks = Environment.TickCount;
       Thread[] threads = new Thread[ThreadsCount];
       int callsCount = 0;
@@ -41,7 +41,11 @@ namespace ConsoleAppTest
       }
       foreach (var thread in threads)
         thread.Join();
-      Console.WriteLine(callsCount.ToString() + " calls in " + (Environment.TickCount - initialTicks).ToString() + "ms");
+      var elapsed = Environment.TickCount - initialTicks;
+      Console.WriteLine(callsCount.ToString() + " calls in " + elapsed.ToString() + "ms");
+      Console.WriteLine("Speed: " + 60 * callsCount / elapsed + " reqs/s" );
+
+      Console.WriteLine("Press any key to finish");
       Console.ReadLine();
     }
   }
