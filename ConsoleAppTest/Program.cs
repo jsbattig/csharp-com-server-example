@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using TestComObject;
+using CLRCppCOMServerTest;
 
 namespace ConsoleAppTest
 {
@@ -12,6 +13,10 @@ namespace ConsoleAppTest
 
     static void Main(string[] args)
     {
+      Type CPPcomType = Type.GetTypeFromProgID("CLRCppCOMServerTest.ExplosiveClass");
+      IExplosiveClass obj = (IExplosiveClass)Activator.CreateInstance(CPPcomType);
+      Console.WriteLine(obj.SelfTest());
+
       Type comType = Type.GetTypeFromProgID("TestComObject.Person");
       IPerson[] person = new IPerson[COMObjectsCount];
       var initialTicks = Environment.TickCount;

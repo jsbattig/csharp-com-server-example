@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CLRCppCOMServerTest\CLRCppCOMServerTest.vcxproj">
+      <Project>{32a7b77d-3b11-4306-8b78-85811e1a5e16}</Project>
+      <Name>CLRCppCOMServerTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\COMServerTest\COMServerTest.csproj">
       <Project>{e78fb0ff-c658-4038-a9ae-e3c4b42a0b59}</Project>
       <Name>COMServerTest</Name>
