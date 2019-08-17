@@ -1,0 +1,6 @@
+/packages/
+/.vs/
+/COMServerTest/bin/
+/COMServerTest/obj/
+/ConsoleAppTest/bin/
+/ConsoleAppTest/obj/
