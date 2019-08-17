@@ -39,7 +39,7 @@ The minimum things to do to make any .NET class library operate as COM Server ar
 11. Compile and run your host project
 
 Even though the approach above works (not using an interface to represent the object on the host application) the performance will be significantly slower than if each object exposed in the COM Server declares and implements an interface.
-Without digging deeply on what might be going on, I guess that when declaring an interface the calls are serialized via an indexed DisInterface.
+Without digging deeply on what might be going on, I guess that when declaring an interface the calls are serialized via an indexed DispInterface.
 The performance difference is significant, in my multi-threaded tests I get close to 1000 calls per second when going thorough an interface, vs. about 600 calls per second when using the object "directly".
 
 In summary, declaring an interface per exposed class is not mandatory but recommended to achieve higher performance

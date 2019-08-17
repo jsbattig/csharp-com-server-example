@@ -11,15 +11,35 @@ namespace ConsoleAppTest
     private const int COMCallsCount = 50;
     private const int COMObjectsCount = 1000;
     private const int ThreadsCount = 10;
+    private const int LoopsForCallsWithNoInterface = 10000;
 
     static void Main(string[] args)
     {
       TestCPPCOM();
       Console.WriteLine("******************");
+      TestCPPCOMNoInterface();
+      Console.WriteLine("******************");
       TestCSharpCOM();
       Console.WriteLine("");
       Console.WriteLine("Press any key to finish");
       Console.ReadLine();
+    }
+
+    static void TestCPPCOMNoInterface()
+    {
+      ClassWithNoInterface obj = new ClassWithNoInterface();
+      Console.WriteLine("ClassWithNoInterface.SelfTest(): " + obj.SelfTest());
+      var initialTicks = Environment.TickCount;
+      for (var i = 0; i < LoopsForCallsWithNoInterface; i++)
+        obj.SelfTest();
+      Console.WriteLine(LoopsForCallsWithNoInterface + " calls to ClassWithNoInterface.SelfTest(): " + (Environment.TickCount - initialTicks).ToString() + "ms");
+      SimpleClass obj2 = new SimpleClass();
+      Console.WriteLine("SimpleClass.SelfTest(): " + obj2.SelfTest());
+      // Console.WriteLine("Echo:" + obj.Echo(obj2)); This is not supported because Echo receives an object as parameter and ClassWithNoInterface is treated as a COM object automatically
+      initialTicks = Environment.TickCount;
+      for (var i = 0; i < LoopsForCallsWithNoInterface; i++)
+        obj2.SelfTest();
+      Console.WriteLine(LoopsForCallsWithNoInterface + " calls to SimpleClass.SelfTest(): " + (Environment.TickCount - initialTicks).ToString() + "ms");
     }
 
     static void TestCPPCOM()

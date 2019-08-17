@@ -13,8 +13,7 @@ namespace CLRCppCOMServerTest {
   };
 
   [ClassInterface(ClassInterfaceType::None)]
-  public ref class ExplosiveClass : System::EnterpriseServices::ServicedComponent, IExplosiveClass
-	{
+  public ref class ExplosiveClass : System::EnterpriseServices::ServicedComponent, IExplosiveClass {
   public:
     virtual bool SelfTest();
     virtual void Explode();
