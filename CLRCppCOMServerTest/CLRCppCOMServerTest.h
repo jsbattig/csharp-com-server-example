@@ -6,6 +6,8 @@ using namespace System::Runtime::InteropServices;
 namespace CLRCppCOMServerTest {
   public interface class IExplosiveClass {
     bool SelfTest();
+    void Explode();
+    int AutoInc();
   };
 
   [ClassInterface(ClassInterfaceType::None)]
@@ -13,5 +15,7 @@ namespace CLRCppCOMServerTest {
 	{
   public:
     virtual bool SelfTest();
-	};
+    virtual void Explode();
+    virtual int AutoInc();
+  };
 }

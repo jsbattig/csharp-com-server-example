@@ -6,6 +6,7 @@ Instructions after compiling the project:
 1. Open the Visual Studio Command Prompt
 2. Navigate to the bin folder where COMServerTest.dll was built
 3. Execute "regsvcs COMServerTest.dll" (this steps registers the COM server in the computer)
+4. Execute "regsvcs CLRCppCOMServerTest.dll" (this step registers the C++ COM server)
 
 After the later step, the assembly is registered as a COM server and all types that inherit from System.EnterpriseServices.ServicedComponent will be registered as supported classes to be instantiated within the COM server.
 Security doesn't need to be configured for the COM Server because is disabled via attribute:
@@ -16,7 +17,7 @@ declared in AssemblyInfo.cs file.
 
 *************************
 
-The things to do to make any .NET class library operate as COM Server are:
+The minimum things to do to make any .NET class library operate as COM Server are:
 
 1. Added reference to the following assembly: "System.EnterpriseServices"
 2. Install nuget package: "System.Runtime.InteropServices"
@@ -42,3 +43,15 @@ Without digging deeply on what might be going on, I guess that when declaring an
 The performance difference is significant, in my multi-threaded tests I get close to 1000 calls per second when going thorough an interface, vs. about 600 calls per second when using the object "directly".
 
 In summary, declaring an interface per exposed class is not mandatory but recommended to achieve higher performance
+
+*****
+
+A note on exception management on COM objects. If the machine.config of .NET framework doesn't have the following entry:
+
+    <runtime>
+      <legacyCorruptedStateExceptionsPolicy enabled="true"/>
+    </runtime>
+
+The COM server will crash upon an access violation exception. The object on the host application will have a stale reference and within the host application a COMException will be thrown if the attempting to execute any kind of operation in this object.
+
+It's important to decide if using or not legacyCorruptStateExceptionPolicy or not. If using it with "true" value the COM Server *may* be left into a bad state after an access violation, but other in-flight calls will continue working, otherwise the server will crash taking every other in-flight call with it.

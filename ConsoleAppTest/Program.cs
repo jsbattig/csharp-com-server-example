@@ -2,6 +2,7 @@
 using System.Threading;
 using TestComObject;
 using CLRCppCOMServerTest;
+using System.Runtime.InteropServices;
 
 namespace ConsoleAppTest
 {
@@ -13,10 +14,41 @@ namespace ConsoleAppTest
 
     static void Main(string[] args)
     {
+      TestCPPCOM();
+      Console.WriteLine("******************");
+      TestCSharpCOM();
+      Console.WriteLine("");
+      Console.WriteLine("Press any key to finish");
+      Console.ReadLine();
+    }
+
+    static void TestCPPCOM()
+    {
       Type CPPcomType = Type.GetTypeFromProgID("CLRCppCOMServerTest.ExplosiveClass");
       IExplosiveClass obj = (IExplosiveClass)Activator.CreateInstance(CPPcomType);
-      Console.WriteLine(obj.SelfTest());
+      Console.WriteLine("C++ SelfTest: " + obj.SelfTest());
+      Console.WriteLine("First call to AutoInc(): " + obj.AutoInc());
+      try
+      {
+        obj.Explode();
+      } catch (Exception e)
+      {
+        Console.WriteLine(e.Message + ". This was expected");
+      }
+      try
+      {
+        Console.WriteLine("Second call to AutoInc(): " + obj.AutoInc());
+      } catch(COMException)
+      {
+        Console.WriteLine("machine.config file missing tag legacyCorruptedStateExceptionsPolicy true");
+        Console.WriteLine("Re-creating object due to COM object crash and calling AutoInc()");
+        obj = (IExplosiveClass)Activator.CreateInstance(CPPcomType);
+        Console.WriteLine("Second call to AutoInc(): " + obj.AutoInc());
+      }
+    }
 
+    static void TestCSharpCOM()
+    {
       Type comType = Type.GetTypeFromProgID("TestComObject.Person");
       IPerson[] person = new IPerson[COMObjectsCount];
       var initialTicks = Environment.TickCount;
@@ -33,7 +65,7 @@ namespace ConsoleAppTest
         {
           for (var i = 0; i < COMObjectsCount; i++)
           {
-            if(i % ThreadsCount == (int)id)
+            if (i % ThreadsCount == (int)id)
               for (var j = 0; j < COMCallsCount; j++)
               {
                 person[i].FirstName = "Name " + i.ToString() + " " + j.ToString();
@@ -48,10 +80,7 @@ namespace ConsoleAppTest
         thread.Join();
       var elapsed = Environment.TickCount - initialTicks;
       Console.WriteLine(callsCount.ToString() + " calls in " + elapsed.ToString() + "ms");
-      Console.WriteLine("Speed: " + 60 * callsCount / elapsed + " reqs/s" );
-
-      Console.WriteLine("Press any key to finish");
-      Console.ReadLine();
+      Console.WriteLine("Speed: " + 60 * callsCount / elapsed + " reqs/s");
     }
   }
 }
