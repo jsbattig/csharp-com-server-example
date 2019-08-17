@@ -45,6 +45,23 @@ namespace ConsoleAppTest
         obj = (IExplosiveClass)Activator.CreateInstance(CPPcomType);
         Console.WriteLine("Second call to AutoInc(): " + obj.AutoInc());
       }
+      try
+      {
+        obj.ThrowCppException();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.GetType().Name + ":" + e.Message);
+      }
+      try
+      {
+        obj.ThrowString();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.GetType().Name + ":" + e.Message);
+      }
+      Console.WriteLine("Third call to AutoInc(): " + obj.AutoInc());
     }
 
     static void TestCSharpCOM()

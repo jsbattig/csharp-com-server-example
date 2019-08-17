@@ -16,3 +16,11 @@ static int value = 0;
 int CLRCppCOMServerTest::ExplosiveClass::AutoInc() {
   return value++;
 }
+
+void CLRCppCOMServerTest::ExplosiveClass::ThrowCppException() {  
+  throw gcnew Exception("Explosion");
+}
+
+void CLRCppCOMServerTest::ExplosiveClass::ThrowString() {
+  throw "Explosion";
+}

@@ -7,6 +7,8 @@ namespace CLRCppCOMServerTest {
   public interface class IExplosiveClass {
     bool SelfTest();
     void Explode();
+    void ThrowCppException();
+    void ThrowString();
     int AutoInc();
   };
 
@@ -17,5 +19,7 @@ namespace CLRCppCOMServerTest {
     virtual bool SelfTest();
     virtual void Explode();
     virtual int AutoInc();
+    virtual void ThrowCppException();
+    virtual void ThrowString();
   };
 }
